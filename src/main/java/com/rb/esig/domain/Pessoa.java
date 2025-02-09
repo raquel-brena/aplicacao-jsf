@@ -1,12 +1,14 @@
 package com.rb.esig.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Table(name = "pessoa")
-public class Pessoa {
+public class Pessoa implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +24,7 @@ public class Pessoa {
     @Column(unique = true)
     private String usuario;
     private String telefone;
+
     private LocalDate dataNascimento;
 
     @ManyToOne
