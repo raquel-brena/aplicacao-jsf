@@ -15,5 +15,33 @@ public class PessoaSalarioConsolidado {
     private double salario;
     public PessoaSalarioConsolidado () {}
 
+    public PessoaSalarioConsolidado(String nomePessoa, String nomeCargo, double salario) {
+        this.nomePessoa = nomePessoa;
+        this.nomeCargo = nomeCargo;
+        this.salario = salario;
+    }
 
+    public String getNomePessoa() {
+        return nomePessoa;
+    }
+
+    public void setNomePessoa(String nomePessoa) {
+        this.nomePessoa = nomePessoa;
+    }
+
+    public String getNomeCargo() {
+        return nomeCargo;
+    }
+
+    public void setNomeCargo(String nomeCargo) {
+        this.nomeCargo = nomeCargo;
+    }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
 }

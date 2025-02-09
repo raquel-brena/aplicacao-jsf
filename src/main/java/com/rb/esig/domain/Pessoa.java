@@ -1,6 +1,7 @@
 package com.rb.esig.domain;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -10,19 +11,18 @@ public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     private String nome;
-
     private String cidade;
     private String cep;
     private String pais;
     private String endereco;
+    @Column(unique = true)
     private String email;
-
+    @Column(unique = true)
     private String usuario;
     private String telefone;
-    private String dataNascimento;
+    private LocalDate dataNascimento;
 
     @ManyToOne
     @JoinColumn(name = "cargo_id", nullable = false)
@@ -31,7 +31,7 @@ public class Pessoa {
     public Pessoa() {}
 
     public Pessoa(String nome, String cidade, String email, String cep, String endereco,
-                  String usuario, String telefone, String dataNascimento, Cargo cargo, String pais) {
+                  String usuario, String telefone, LocalDate  dataNascimento, Cargo cargo, String pais) {
         this.nome = nome;
         this.cidade = cidade;
         this.email = email;
@@ -44,7 +44,7 @@ public class Pessoa {
         this.pais = pais;
     }
 
-    // Getters e Setters
+
     public Long getId() {
         return id;
     }
@@ -109,11 +109,11 @@ public class Pessoa {
         this.telefone = telefone;
     }
 
-    public String getDataNascimento() {
+    public LocalDate  getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate  dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
