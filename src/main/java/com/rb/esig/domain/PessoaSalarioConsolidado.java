@@ -1,10 +1,12 @@
 package com.rb.esig.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "pesssoa_salario_consolidado")
-public class PessoaSalarioConsolidado {
+public class PessoaSalarioConsolidado implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
