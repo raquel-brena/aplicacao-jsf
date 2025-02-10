@@ -6,7 +6,6 @@ import com.rb.esig.infra.utils.JpaUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,14 +20,6 @@ public class PessoaRepository {
     public List<Pessoa> findAll() {
         return entityManager.createQuery("SELECT p FROM Pessoa p", Pessoa.class)
                 .getResultList();
-    }
-    public List<Pessoa> findAllPagineted(int pageAtual, int tamanhoPage) {
-        TypedQuery<Pessoa> query = entityManager.createQuery(
-                "SELECT p FROM Pessoa p", Pessoa.class);
-        query.setFirstResult(pageAtual * tamanhoPage);
-        query.setMaxResults(tamanhoPage);
-
-        return query.getResultList();
     }
 
     public Optional<Usuario> findByUsuario(String usuario) {
@@ -59,7 +50,7 @@ public class PessoaRepository {
 
             return Optional.of(query.getSingleResult());
         } catch (RuntimeException e) {
-           return Optional.empty();
+            return Optional.empty();
         }
     }
 
@@ -79,13 +70,14 @@ public class PessoaRepository {
         }
     }
 
-    public void save (Pessoa pessoa) {
+
+    public void save(Pessoa pessoa) {
         entityManager.getTransaction().begin();
         entityManager.persist(pessoa);
         entityManager.getTransaction().commit();
     }
 
-    public Usuario saveUsuario (Usuario usuario) {
+    public Usuario saveUsuario(Usuario usuario) {
         entityManager.getTransaction().begin();
         entityManager.persist(usuario);
         entityManager.getTransaction().commit();

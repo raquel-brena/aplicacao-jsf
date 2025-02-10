@@ -14,37 +14,30 @@ import java.util.List;
 @ViewScoped
 public class PessoaBean implements Serializable {
     private static final long serialVersionUID = 1L;
+    private Pessoa pessoaDTO = new Pessoa();
 
     @Inject
     private PessoaService service;
-     int page = 0;
-     int pageSize = 10;
-    public PessoaBean() {}
+
+
+    public PessoaBean() {
+    }
+
+    public void save() {
+        this.service.save(pessoaDTO);
+    }
 
     public List<Pessoa> findAll() {
         return service.findAll();
     }
 
-    public List<Pessoa> findPagineted() {
-        return service.findAllPagineted(page, pageSize);
+    public Pessoa getPessoa() {
+        return pessoaDTO;
     }
 
-    public void nextPage() {
-        page++;
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoaDTO = pessoa;
     }
 
-    public void prevPage() {
-        if (page > 0) {
-            page--;
-        }
-    }
-
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
 
 }
