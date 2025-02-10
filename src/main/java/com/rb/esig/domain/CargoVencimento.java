@@ -20,7 +20,9 @@ public class CargoVencimento implements Serializable {
     @JoinColumn(name = "vencimento_id", nullable = false)
     private Vencimento vencimento;
 
-    public CargoVencimento(){}
+    public CargoVencimento() {
+    }
+
     public Long getId() {
         return id;
     }

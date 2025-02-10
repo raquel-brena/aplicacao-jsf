@@ -8,11 +8,7 @@ import com.rb.esig.shared.exceptions.BadRequestException;
 import com.rb.esig.shared.exceptions.NotFoundException;
 
 import javax.enterprise.context.Dependent;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Optional;
 
 @Dependent
@@ -27,7 +23,7 @@ public class AuthService implements Serializable {
     }
 
     public Usuario autenticar(String usuario, String senha) {
-        Optional<Usuario>  usuarioEncontrado = pessoaRepository.findByUsuario(usuario);
+        Optional<Usuario> usuarioEncontrado = pessoaRepository.findByUsuario(usuario);
 
         if (usuarioEncontrado.isEmpty()) throw new NotFoundException("Usuário não encontrado.");
 
@@ -39,7 +35,7 @@ public class AuthService implements Serializable {
         return usuarioEncontrado.get();
     }
 
-    public Usuario cadastrar(String usuario, String senha){
+    public Usuario cadastrar(String usuario, String senha) {
         Optional<Usuario> usuarioEncontrado = this.pessoaRepository.findUsuario(usuario);
 
         if (usuarioEncontrado.isPresent()) throw new BadRequestException("Já há uma conta associado à este usuário.");
@@ -51,14 +47,13 @@ public class AuthService implements Serializable {
 
         String senhaCriptograda = passwordEncoder.encoder(senha);
 
-       Usuario novoUsuario = new Usuario();
-       novoUsuario.setAtivo(true);
-       novoUsuario.setPessoa(pessoa.get());
-       novoUsuario.setSenha(senhaCriptograda);
+        Usuario novoUsuario = new Usuario();
+        novoUsuario.setAtivo(true);
+        novoUsuario.setPessoa(pessoa.get());
+        novoUsuario.setSenha(senhaCriptograda);
 
-       return this.pessoaRepository.saveUsuario(novoUsuario);
+        return this.pessoaRepository.saveUsuario(novoUsuario);
     }
-
 
 
 }
