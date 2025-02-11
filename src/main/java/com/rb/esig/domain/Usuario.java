@@ -13,7 +13,7 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false )
+    @Column(nullable = false)
     private boolean ativo;
 
     @OneToOne
@@ -33,7 +33,8 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
-    public Usuario() {}
+    public Usuario() {
+    }
 
     public boolean isAtivo() {
         return ativo;
