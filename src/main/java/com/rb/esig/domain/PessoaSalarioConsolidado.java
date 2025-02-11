@@ -9,7 +9,8 @@ public class PessoaSalarioConsolidado implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pessoa_salario_seq")
+    @SequenceGenerator(name = "pessoa_salario_seq", sequenceName = "pessoa_salario_consolidado_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "nome_pessoa")

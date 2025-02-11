@@ -6,6 +6,7 @@ import com.rb.esig.infra.utils.JpaUtil;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,9 +14,9 @@ import java.util.concurrent.Executors;
 public class PessoaSalarioRepository {
 
 
+    private final ExecutorService executor = Executors.newFixedThreadPool(2);
     @PersistenceContext
     private EntityManager entityManager;
-    private final ExecutorService executor = Executors.newFixedThreadPool(2);
 
     public PessoaSalarioRepository() {
         this.entityManager = JpaUtil.getEntityManager();
@@ -32,13 +33,23 @@ public class PessoaSalarioRepository {
         entityManager.getTransaction().commit();
     }
 
+    public PessoaSalarioConsolidado findSalarioByNomePessoa(String nomePessoa) {
+        for (PessoaSalarioConsolidado salarioConsolidado : this.findAll()) {
+            if (Objects.equals(salarioConsolidado.getNomePessoa(), nomePessoa)) {
+                return salarioConsolidado;
+            }
+        }
+        return null;
+    }
+
     public CompletableFuture<Void> deleteAllAsync() {
         return CompletableFuture.runAsync(() -> {
             EntityManager em = entityManager.getEntityManagerFactory().createEntityManager();
             try {
                 em.getTransaction().begin();
                 em.createQuery("DELETE FROM PessoaSalarioConsolidado").executeUpdate();
-                em.createNativeQuery("ALTER SEQUENCE pessoa_salario_consolidado_id_seq RESTART WITH 1").executeUpdate();
+                em.flush();
+                em.createNativeQuery("TRUNCATE TABLE pessoa_salario_consolidado RESTART IDENTITY CASCADE").executeUpdate();
                 em.getTransaction().commit();
             } catch (RuntimeException e) {
                 em.getTransaction().rollback();

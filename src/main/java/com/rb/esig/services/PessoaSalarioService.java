@@ -25,32 +25,42 @@ public class PessoaSalarioService implements Serializable {
 
     public void calcularTodosSalarios(List<Pessoa> pessoas) {
         for (Pessoa p : pessoas) {
-            double salarioTotal = 0;
-            Cargo cargo = p.getCargo();
-            List<CargoVencimento> cargoVencimentos = cargo.getCargoVencimentos();
+            double salarioCalculado = calcularValorSalario(p.getCargo());
 
-            for (CargoVencimento cv : cargoVencimentos) {
-                Vencimento vencimento = cv.getVencimento();
+            PessoaSalarioConsolidado salarioJaCalculado =
+                    this.repository.findSalarioByNomePessoa(p.getNome());
 
-                if (vencimento.getTipoVencimento() == TipoVencimento.CREDITO) {
-                    salarioTotal = salarioTotal + vencimento.getValor();
-                } else {
-                    salarioTotal = salarioTotal - vencimento.getValor();
-                }
+            if (salarioJaCalculado == null) {
+                PessoaSalarioConsolidado novoSalario = new PessoaSalarioConsolidado();
+                novoSalario.setNomePessoa(p.getNome());
+                novoSalario.setSalario(salarioCalculado);
+                novoSalario.setNomeCargo(p.getCargo().getNome());
+                this.save(novoSalario);
+            } else {
+                salarioJaCalculado.setSalario(salarioCalculado);
+                this.save(salarioJaCalculado);
             }
-            PessoaSalarioConsolidado salarioConsolidado = new PessoaSalarioConsolidado();
-            salarioConsolidado.setNomePessoa(p.getNome());
-            salarioConsolidado.setSalario(salarioTotal);
-            salarioConsolidado.setNomeCargo(cargo.getNome());
-
-            this.save(salarioConsolidado);
         }
-
     }
 
-    public void recalcularSalarios(List<Pessoa> pessoas) {
-        this.repository.deleteAllAsync().thenRun(
-                () -> this.calcularTodosSalarios(pessoas));
+
+    private double calcularValorSalario(Cargo cargo) {
+        double total = 0;
+        List<CargoVencimento> cargoVencimentos = cargo.getCargoVencimentos();
+
+        for (CargoVencimento cv : cargoVencimentos) {
+            Vencimento vencimento = cv.getVencimento();
+            if (vencimento.getTipoVencimento() == TipoVencimento.CREDITO) {
+                total += vencimento.getValor();
+            } else {
+                total -= vencimento.getValor();
+            }
+        }
+        return total;
+    }
+
+    public void deletarSalarios() {
+        this.repository.deleteAllAsync().join();
     }
 
 

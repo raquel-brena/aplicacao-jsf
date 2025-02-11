@@ -27,8 +27,8 @@ public class PessoaSalarioBean implements Serializable {
     }
 
 
-    public void recalcularSalarios(List<Pessoa> pessoas) {
-        service.recalcularSalarios(pessoas);
+    public void calcularSalarios(List<Pessoa> pessoas) {
+        service.calcularTodosSalarios(pessoas);
 
     }
 }
