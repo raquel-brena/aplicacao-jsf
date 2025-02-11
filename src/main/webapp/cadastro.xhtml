@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <h:head>
+        <h:outputStylesheet library="css" name="login.css">
+            <f:param name="v" value="#{request.getSession().getId()}"/>
+        </h:outputStylesheet>
+
+    </h:head>
+    <body>
+    <div class="containerMenu">
+        ESIG RECRUTAMENTO
+    </div>
+
+    <div class="containerLogin">
+        <div class="box">
+
+            <div class="titles">
+                <h1>Cadastrar</h1>
+                <p>Cadastre seu usuário com usuario e senha</p>
+            </div>
+
+            <h:form class="form">
+                <h:messages showSummary="false" showDetail="true" errorClass="error-message"/>
+                <div class="form-group">
+                    <h:outputLabel for="usuario" value="Usuário"/>
+                    <h:inputText id="usuario" value="#{authBean.nomeUsuario}" required="true" class="input-field"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="senha" value="Senha"/>
+                    <h:inputSecret id="senha" value="#{authBean.senha}" required="true" class="input-field"/>
+                </div>
+
+                <h:commandButton value="Cadastrar" action="#{authBean.cadastrar}" class="btn"/>
+            </h:form>
+            <h:outputLink value="login.xhtml">Já possui conta? Faça login</h:outputLink>
+
+        </div>
+
+
+        <div class="box">
+            <h:outputLabel value="Hello, world!"/>
+        </div>
+
+
+    </div>
+
+    <div class="footer"/>
+    </body>
+
+</f:view>
+</html>

@@ -24,7 +24,6 @@
             <h:form>
                 <p:commandButton value="Sair" action="#{authBean.logout()}" styleClass="btn" immediate="true"/>
             </h:form>
-
         </div>
         <div class="nav">
             <div class="infos">
@@ -33,6 +32,7 @@
             </div>
             <div class="container-nav">
                 <p>MÓDULOS</p>
+
                 <h:form>
                     <div class="nav-items">
                         <p:commandButton value="Home" action="index?faces-redirect=true" styleClass="btn-add"
@@ -47,59 +47,84 @@
                 </h:form>
             </div>
         </div>
+
     </div>
+
 
     <div class="conteudo">
         <div class="breadcrumContainer">
             <p:breadCrumb>
                 <p:menuitem value="Home"/>
-                <p:menuitem value="Salários consolidados"/>
-
+                <p:menuitem value="Gerenciar usuários"/>
             </p:breadCrumb>
         </div>
         <div class="containerButtons">
-            <p class="label"> Salários consolidados </p>
-
+            <p class="label">Usuários</p>
             <h:form>
-                <p:commandButton value="Recalcular salários"
-                                 action="#{pessoaSalarioBean.calcularSalarios(pessoaBean.findAll())}"
+                <p:commandButton value="Cadastrar usuário"
+                                 icon="pi pi-plus"
+                                 type="button"
+                                 action="#{authBean.logout()}"
                                  styleClass="btn-calcular ui-button"
-                                 immediate="true"
-                                 icon="pi pi-refresh"
-                                 update="tabelaSalarios"/>
+                                 onclick="PF('dlgCadastro').show()"/>
             </h:form>
         </div>
 
+        <p:dialog header="Cadastrar usuário"
+                  widgetVar="dlgCadastro"
+                  modal="true"
+                  closable="true"
+                  resizable="false"
+                  width="50%">
+            <h:form id="cadastroForm" styleClass="form">
+                <h:messages showSummary="false" showDetail="true" errorClass="error-message"/>
+
+                <div class="form-cadastrar">
+                    <div class="ui-inputgroup">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+                        <p:inputText placeholder="Usuário" id="usuario" value="#{authBean.nomeUsuario}"
+                                     required="true"/>
+                    </div>
+
+                    <div class="ui-inputgroup">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+                        <p:password placeholder="Senha" id="senha" value="#{authBean.senha}"
+                                    required="true"/>
+                    </div>
+
+                </div>
+                <p:commandButton value="Cadastrar"
+                                 action="#{authBean.cadastrar()}"
+                                 styleClass="btn"
+                                 update=":cadastroForm"/>
+            </h:form>
+
+
+        </p:dialog>
         <div class="table">
-            <p:dataTable value="#{pessoaSalarioBean.findAll()}"
-                         var="pessoa"
-                         paginator="true"
-                         rows="10"
-                         styleClass="custom-table"
-                         paginatorPosition="bottom"
-                         id="tabelaSalarios"
-                         loading="true">
+            <p:dataTable value="#{usuarioBean.findAll()}" var="usuario" paginator="true" rows="10"
+                         styleClass="custom-table" paginatorPosition="bottom"> <p:column>
+                <f:facet name="header">Nome</f:facet>
+                #{usuario.pessoa.nome}
+            </p:column>
                 <p:column>
-                    <f:facet name="header">Id</f:facet>
-                    #{pessoa.id}
+                    <f:facet name="header">Usuário</f:facet>
+                    #{usuario.pessoa.usuario}
                 </p:column>
                 <p:column>
-                    <f:facet name="header">Cargo</f:facet>
-                    #{pessoa.nomeCargo}
+                    <f:facet name="header">Email</f:facet>
+                    #{usuario.pessoa.email}
                 </p:column>
                 <p:column>
-                    <f:facet name="header">Pessoa</f:facet>
-                    #{pessoa.nomePessoa}
+                    <f:facet name="header">Data de criação</f:facet>
+                    #{usuario.criadoEm}
                 </p:column>
                 <p:column>
-                    <f:facet name="header">Salário</f:facet>
-                    R$ #{pessoa.salario}
+                    <f:facet name="header">última atualização</f:facet>
+                    #{usuario.atualizadoEm}
                 </p:column>
             </p:dataTable>
-
         </div>
-
-
     </div>
 
     <div class="footer">a</div>
