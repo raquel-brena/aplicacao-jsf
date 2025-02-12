@@ -3,7 +3,6 @@ package com.rb.esig.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "pessoa")
@@ -13,6 +12,8 @@ public class Pessoa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
+    private boolean ativo;
     @Column(nullable = false)
     private String nome;
     private String cidade;
@@ -31,10 +32,12 @@ public class Pessoa implements Serializable {
     @JoinColumn(name = "cargo_id", nullable = false)
     private Cargo cargo;
 
-    public Pessoa() {}
+
+    public Pessoa() {
+    }
 
     public Pessoa(String nome, String cidade, String email, String cep, String endereco,
-                  String usuario, String telefone, LocalDate  dataNascimento, Cargo cargo, String pais) {
+                  String usuario, String telefone, LocalDate dataNascimento, Cargo cargo, String pais) {
         this.nome = nome;
         this.cidade = cidade;
         this.email = email;
@@ -55,6 +58,15 @@ public class Pessoa implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
 
     public String getNome() {
         return nome;
@@ -112,11 +124,11 @@ public class Pessoa implements Serializable {
         this.telefone = telefone;
     }
 
-    public LocalDate  getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDate  dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -131,6 +143,7 @@ public class Pessoa implements Serializable {
     public String getPais() {
         return pais;
     }
+
 
     public void setPais(String pais) {
         this.pais = pais;

@@ -1,16 +1,18 @@
 package com.rb.esig.repositories;
 
 import com.rb.esig.domain.Pessoa;
-import com.rb.esig.domain.Usuario;
 import com.rb.esig.infra.utils.JpaUtil;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
 public class PessoaRepository {
 
+    @PersistenceContext
     private EntityManager entityManager;
 
     public PessoaRepository() {
@@ -22,54 +24,44 @@ public class PessoaRepository {
                 .getResultList();
     }
 
-    public Optional<Usuario> findByUsuario(String usuario) {
-        try {
 
-            TypedQuery<Usuario> query = entityManager.createQuery(
-                    "SELECT u FROM Usuario u WHERE u.pessoa.usuario = :usuario",
-                    Usuario.class
-            );
-
-            query.setParameter("usuario", usuario);
-
-
-            return Optional.of(query.getSingleResult());
-        } catch (RuntimeException e) {
-            return Optional.empty();
-        }
-    }
     public Optional<Pessoa> findPessoaByUsuario(String usuario) {
         try {
-
             TypedQuery<Pessoa> query = entityManager.createQuery(
                     "SELECT u FROM Pessoa u WHERE u.usuario = :usuario",
                     Pessoa.class
             );
-
             query.setParameter("usuario", usuario);
-
             return Optional.of(query.getSingleResult());
         } catch (RuntimeException e) {
             return Optional.empty();
         }
     }
 
+    public boolean existePessoaPorEmailOuUsuario(String email, String usuario) {
+        TypedQuery<Long> query = entityManager.createQuery(
+                "SELECT COUNT(p) FROM Pessoa p WHERE p.email = :email OR p.usuario = :usuario", Long.class
+        );
+        query.setParameter("email", email);
+        query.setParameter("usuario", usuario);
 
-    public Optional<Usuario> findUsuario(String usuario) {
+        return query.getSingleResult() > 0;
+    }
+
+    public Optional<Pessoa> findById(Long id) {
         try {
-            TypedQuery<Usuario> query = entityManager.createQuery(
-                    "SELECT u FROM Usuario u WHERE u.pessoa.usuario = :usuario",
-                    Usuario.class
+            TypedQuery<Pessoa> query = entityManager.createQuery(
+                    "SELECT u FROM Pessoa u WHERE u.id = :id",
+                    Pessoa.class
             );
 
-            query.setParameter("usuario", usuario);
+            query.setParameter("id", id);
 
             return Optional.of(query.getSingleResult());
         } catch (RuntimeException e) {
             return Optional.empty();
         }
     }
-
 
     public void save(Pessoa pessoa) {
         entityManager.getTransaction().begin();
@@ -77,10 +69,12 @@ public class PessoaRepository {
         entityManager.getTransaction().commit();
     }
 
-    public Usuario saveUsuario(Usuario usuario) {
+    public void delete(Long id) {
         entityManager.getTransaction().begin();
-        entityManager.persist(usuario);
+        Query query = entityManager.createQuery("UPDATE Pessoa u SET u.ativo = false WHERE u.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
         entityManager.getTransaction().commit();
-        return usuario;
     }
+
 }
