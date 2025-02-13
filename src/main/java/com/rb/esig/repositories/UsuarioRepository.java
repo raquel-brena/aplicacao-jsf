@@ -77,6 +77,4 @@ public class UsuarioRepository {
         query.executeUpdate();
         entityManager.getTransaction().commit();
     }
-
-
 }

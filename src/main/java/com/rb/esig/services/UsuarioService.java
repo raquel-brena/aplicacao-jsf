@@ -35,14 +35,17 @@ public class UsuarioService implements Serializable {
         return this.repository.save(usuario);
     }
 
+    public Usuario update(Usuario usuario) {
+        return this.repository.save(usuario);
+    }
+
     public Optional<Usuario> findByUsuario(String usuario) {
         return this.repository.findUsuario(usuario);
     }
 
-    public boolean userExists(String usuario) {
-        return this.repository.userExists(usuario);
+    public Optional<Usuario> userExists(String usuario) {
+        return this.repository.findUsuario(usuario);
     }
-
 
     public Usuario findById(Long id) {
         Optional<Usuario> usuarioEncontrado = this.repository.findById(id);

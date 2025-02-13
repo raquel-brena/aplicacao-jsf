@@ -1,12 +1,14 @@
 package com.rb.esig.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity
 @Table(name = "vencimento")
-public class Vencimento {
-
+public class Vencimento implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,7 +19,9 @@ public class Vencimento {
     private TipoVencimento tipoVencimento;
     @OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CargoVencimento> cargoVencimentos = new ArrayList<>();
-    public Vencimento () {}
+
+    public Vencimento() {
+    }
 
     public Vencimento(String descricao, float valor, TipoVencimento tipoVencimento) {
         this.descricao = descricao;
@@ -40,6 +44,7 @@ public class Vencimento {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
     public List<CargoVencimento> getCargoVencimentos() {
         return cargoVencimentos;
     }
