@@ -1,0 +1,32 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
+<jasperReport name="Blank_A4" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20"
+              rightMargin="20" topMargin="20" bottomMargin="20">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <field name="id" class="java.lang.Long"/>
+    <field name="nomePessoa" class="java.lang.String"/>
+    <field name="nomeCargo" class="java.lang.String"/>
+    <field name="salario" class="java.lang.Double"/>
+    <background/>
+    <title/>
+
+    <detail>
+        <band height="125">
+            <textField>
+                <reportElement x="40" y="0" width="100" height="30"/>
+                <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="143" y="0" width="100" height="30"/>
+                <textFieldExpression><![CDATA[$F{nomePessoa}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="253" y="0" width="100" height="30"/>
+                <textFieldExpression><![CDATA[$F{nomeCargo}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="363" y="0" width="100" height="30"/>
+                <textFieldExpression><![CDATA[$F{salario}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

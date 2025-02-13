@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 
 @Named
@@ -28,6 +29,13 @@ public class UsuarioBean implements Serializable {
     public void save() {
         this.service.save(this.usuario);
         PrimeFaces.current().executeScript("PF('dlgCadastro').hide()");
+        this.usuario = null;
+    }
+
+    public void update() {
+        this.service.update(this.usuario);
+        PrimeFaces.current().executeScript("PF('dlgCadastro').hide()");
+        this.usuario = null;
     }
 
     public List<Usuario> findAll() {
@@ -43,23 +51,20 @@ public class UsuarioBean implements Serializable {
     }
 
     public boolean usuarioExiste(String usuario) {
-        try {
-            this.service.findByUsuario(usuario);
+        Optional<Usuario> usuarioExiste = this.service.findByUsuario(usuario);
+        if (usuarioExiste.isPresent()) {
             return true;
-        } catch (Exception ignored) {
-            return false;
         }
+        return false;
     }
 
     public void delete(Long id, Long usuarioLogadoId) {
         boolean deletadoEstaLogado = this.service.delete(id, usuarioLogadoId);
-
         if (deletadoEstaLogado) authBean.logout();
     }
 
     public Usuario getUsuario() {
         return usuario;
-
     }
 
     public void setUsuario(Usuario usuario) {
