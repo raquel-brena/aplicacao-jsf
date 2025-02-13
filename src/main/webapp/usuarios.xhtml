@@ -41,7 +41,7 @@
                                          process="@this"/>
                         <p:commandButton value="Vencimentos" action="pessoas?faces-redirect=true" styleClass="btn-add"/>
                         <p:commandButton value="Usuários" action="usuarios?faces-redirect=true" styleClass="btn-add"/>
-                        <p:commandButton value="Pessoas" action="pessoas?faces-redirect=true" styleClass="btn-add"/>
+                        <p:commandButton value="Cargos" action="pessoas?faces-redirect=true" styleClass="btn-add"/>
                         <p:commandButton value="Pessoas" action="pessoas?faces-redirect=true" styleClass="btn-add"/>
                     </div>
                 </h:form>
@@ -102,7 +102,8 @@
 
         </p:dialog>
         <div class="table">
-            <p:dataTable value="#{usuarioBean.findAll()}" var="usuario" paginator="true" rows="10"
+            <p:dataTable id="tabelaUsuarios" value="#{usuarioBean.findAllAtivos()}" var="usuario" paginator="true"
+                         rows="10"
                          styleClass="custom-table" paginatorPosition="bottom"> <p:column>
                 <f:facet name="header">Nome</f:facet>
                 #{usuario.pessoa.nome}
@@ -120,8 +121,20 @@
                     #{usuario.criadoEm}
                 </p:column>
                 <p:column>
-                    <f:facet name="header">última atualização</f:facet>
+                    <f:facet name="header">Última atualização</f:facet>
                     #{usuario.atualizadoEm}
+                </p:column>
+                <p:column>
+                    <h:form>
+                        <p:commandButton action="#{usuarioBean.delete(usuario.id, authBean.usuarioLogado.id)}"
+                                         update="tabelaUsuarios"
+                                         icon="pi pi-user-plus" process="@this"
+                                         ajax="true"/>
+                        <p:commandButton action="#{usuarioBean.delete(usuario.id, authBean.usuarioLogado.id)}"
+                                         update="tabelaUsuarios"
+                                         icon="pi pi-user-minus" process="@this"
+                                         ajax="true"/>
+                    </h:form>
                 </p:column>
             </p:dataTable>
         </div>

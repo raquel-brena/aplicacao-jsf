@@ -41,7 +41,7 @@
                                          process="@this"/>
                         <p:commandButton value="Vencimentos" action="pessoas?faces-redirect=true" styleClass="btn-add"/>
                         <p:commandButton value="Usuários" action="usuarios?faces-redirect=true" styleClass="btn-add"/>
-                        <p:commandButton value="Pessoas" action="pessoas?faces-redirect=true" styleClass="btn-add"/>
+                        <p:commandButton value="Cargos" action="pessoas?faces-redirect=true" styleClass="btn-add"/>
                         <p:commandButton value="Pessoas" action="pessoas?faces-redirect=true" styleClass="btn-add"/>
                     </div>
                 </h:form>
@@ -61,14 +61,23 @@
             <p class="label"> Salários consolidados </p>
 
             <h:form>
-                <p:commandButton value="Recalcular salários"
-                                 action="#{pessoaSalarioBean.calcularSalarios(pessoaBean.findAll())}"
+                <p:commandButton id="btnCalcular"
+                                 value="#{pessoaSalarioBean.buttonLabel}"
+                                 action="#{pessoaSalarioBean.calcularSalarios()}"
                                  styleClass="btn-calcular ui-button"
-                                 immediate="true"
                                  icon="pi pi-refresh"
-                                 update="tabelaSalarios"/>
+                                 update="btnCalcular tabelaSalarios"
+                                 process="@this"
+                />
+                <p:commandButton value="Gerar Relatório"
+                                 icon="pi pi-file-pdf"
+                                 action="#{pessoaSalarioBean.gerarRelatorioPDF()}"
+                                 ajax="false"
+                                 styleClass="ui-button-danger"/>
+
             </h:form>
         </div>
+
 
         <div class="table">
             <p:dataTable value="#{pessoaSalarioBean.findAll()}"

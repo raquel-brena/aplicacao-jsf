@@ -41,8 +41,9 @@ p, div, button {
 .containerMenu {
     width: 100%;
     box-sizing: border-box;
-    padding: 0.3rem 1rem;
     color: white;
+    height: fit-content;
+    justify-items: center;
     justify-content: space-between;
     align-items: center;
     border-bottom: #D99C44 8px solid;
@@ -76,6 +77,32 @@ p, div, button {
     padding: 1.3rem 1.5rem;
 }
 
+
+@media (max-width: 768px) {
+    .nav {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        flex-wrap: wrap;
+    }
+
+    .container-nav {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-items {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-items {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
 .container-nav {
     display: flex;
     width: 50%;
@@ -86,7 +113,7 @@ p, div, button {
 .nav-items {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, auto);
+    grid-template-rows: auto;
     gap: 10px;
 }
 
