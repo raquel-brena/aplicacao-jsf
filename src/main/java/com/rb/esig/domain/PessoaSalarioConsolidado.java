@@ -1,6 +1,9 @@
 package com.rb.esig.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
@@ -9,10 +12,7 @@ public class PessoaSalarioConsolidado implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pessoa_salario_seq")
-    @SequenceGenerator(name = "pessoa_salario_seq", sequenceName = "pessoa_salario_consolidado_id_seq", allocationSize = 1)
     private Long id;
-
     @Column(name = "nome_pessoa")
     private String nomePessoa;
     @Column(name = "nome_cargo")
@@ -21,7 +21,6 @@ public class PessoaSalarioConsolidado implements Serializable {
 
     public PessoaSalarioConsolidado() {
     }
-
     public PessoaSalarioConsolidado(String nomePessoa, String nomeCargo, double salario) {
         this.nomePessoa = nomePessoa;
         this.nomeCargo = nomeCargo;
