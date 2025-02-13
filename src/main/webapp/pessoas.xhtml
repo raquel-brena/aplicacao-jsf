@@ -41,7 +41,7 @@
                                          process="@this"/>
                         <p:commandButton value="Vencimentos" action="pessoas?faces-redirect=true" styleClass="btn-add"/>
                         <p:commandButton value="Usuários" action="usuarios?faces-redirect=true" styleClass="btn-add"/>
-                        <p:commandButton value="Pessoas" action="pessoas?faces-redirect=true" styleClass="btn-add"/>
+                        <p:commandButton value="Cargos" action="pessoas?faces-redirect=true" styleClass="btn-add"/>
                         <p:commandButton value="Pessoas" action="pessoas?faces-redirect=true" styleClass="btn-add"/>
                     </div>
                 </h:form>
@@ -79,18 +79,15 @@
                 <h:messages showSummary="false" showDetail="true" errorClass="error-message"/>
 
                 <div class="form-cadastrar">
-
                     <div class="ui-inputgroup">
                         <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
                         <p:inputText placeholder="Nome" id="nome" value="#{pessoaBean.pessoa.nome}" required="true"/>
                     </div>
-
                     <div class="ui-inputgroup">
                         <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
                         <p:inputText placeholder="Cidade" id="cidade" value="#{pessoaBean.pessoa.cidade}"
                                      required="true"/>
                     </div>
-
                     <div class="ui-inputgroup">
                         <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
                         <p:inputText placeholder="Email" id="email" value="#{pessoaBean.pessoa.email}"
@@ -98,58 +95,46 @@
                             <f:validateRegex pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"/>
                         </p:inputText>
                     </div>
-
-
                     <div class="ui-inputgroup">
                         <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
                         <p:inputText placeholder="CEP" id="cep" value="#{pessoaBean.pessoa.cep}"
                                      required="true"/>
                     </div>
-
                     <div class="ui-inputgroup">
                         <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
-                        <p:inputText placeholder="Endereço" id="endereco" value="#{pessoaBean.pessoa.endereco}"
+                        <p:inputText placeholder="Endereço"
+                                     id="endereco" value="#{pessoaBean.pessoa.endereco}"
                                      required="true"/>
                     </div>
-
                     <div class="ui-inputgroup">
                         <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
                         <p:inputText placeholder="Usuário" id="usuario" value="#{pessoaBean.pessoa.usuario}"
                                      required="true"/>
                     </div>
-
                     <div class="ui-inputgroup">
                         <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
                         <p:inputText placeholder="Telefone" id="telefone" value="#{pessoaBean.pessoa.telefone}"
                                      required="true"/>
                     </div>
-
-
                     <div class="ui-inputgroup">
                         <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
                         <p:calendar id="dataNascimento" placeholder="Data de nascimento"
                                     value="#{pessoaBean.pessoa.dataNascimento}" required="true"
                                     pattern="dd/MM/yyyy" navigator="true" showOn="button" styleClass="input-field"/>
                     </div>
-
-
                     <div class="ui-inputgroup">
                         <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
                         <p:inputText placeholder="Cargo" id="cargo" value="#{pessoaBean.pessoa.cargo}"
                                      required="true"/>
                     </div>
-
-
                     <div class="ui-inputgroup">
                         <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
                         <p:inputText placeholder="País" id="pais" value="#{pessoaBean.pessoa.pais}"
                                      required="true"/>
                     </div>
-
-
                 </div>
                 <p:commandButton value="Cadastrar"
-                                 action="#{pessoaBean.save()}"
+                                 action="#{pessoaBean.save(null)}"
                                  styleClass="btn"
                                  update=":cadastroForm"/>
             </h:form>
@@ -158,11 +143,17 @@
         </p:dialog>
 
         <div class="table">
-            <p:dataTable value="#{pessoaBean.findAll()}" var="pessoa" paginator="true" rows="10"
-                         styleClass="custom-table" paginatorPosition="bottom"> <p:column>
-                <f:facet name="header">Nome</f:facet>
-                #{pessoa.nome}
-            </p:column>
+            <p:dataTable value="#{pessoaBean.findAll()}"
+                         var="pessoa"
+                         id="tabelaPessoas"
+                         paginator="true"
+                         rows="10"
+                         styleClass="custom-table"
+                         paginatorPosition="bottom">
+                <p:column>
+                    <f:facet name="header">Nome</f:facet>
+                    #{pessoa.nome}
+                </p:column>
                 <p:column>
                     <f:facet name="header">Usuário</f:facet>
                     #{pessoa.usuario}
@@ -200,16 +191,28 @@
                     <f:facet name="header">Cargo</f:facet>
                     #{pessoa.cargo.nome}
                 </p:column>
+                <p:column>
+                    <f:facet name="header">Possui login</f:facet>
+                    #{usuarioBean.usuarioExiste(pessoa.usuario) ? 'Sim' : 'Não'}
 
+                </p:column>
+                <p:column>
+                    <h:form>
+                        <p:commandButton action="#{pessoaBean.save(pessoa)}"
+                                         update="tabelaPessoas"
+                                         onclick="PF('dlgCadastro').show()"
+                                         icon="pi pi-user-edit" process="@this"
+                                         ajax="true"/>
+                        <p:commandButton action="#{pessoaBean.delete(pessoa.id, authBean.usuarioLogado.id)}"
+                                         update="tabelaPessoas"
+                                         icon="pi pi-user-minus" process="@this"
+                                         ajax="true"/>
+                    </h:form>
+                </p:column>
             </p:dataTable>
-
         </div>
-
-
     </div>
-
     <div class="footer">a</div>
     </body>
-
 </f:view>
 </html>

@@ -53,6 +53,4 @@ public class CargoRepository {
             throw new BadRequestException("Houve um erro ao buscar o cargo: " + name);
         }
     }
-
-
 }

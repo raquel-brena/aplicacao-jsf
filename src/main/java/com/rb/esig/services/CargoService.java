@@ -34,7 +34,6 @@ public class CargoService implements Serializable {
 
         return cargo.get();
     }
-
     public List<Cargo> findAll() {
         return repository.findAll();
     }

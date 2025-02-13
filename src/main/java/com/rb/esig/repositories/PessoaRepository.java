@@ -23,21 +23,6 @@ public class PessoaRepository {
         return entityManager.createQuery("SELECT p FROM Pessoa p", Pessoa.class)
                 .getResultList();
     }
-
-
-    public Optional<Pessoa> findPessoaByUsuario(String usuario) {
-        try {
-            TypedQuery<Pessoa> query = entityManager.createQuery(
-                    "SELECT u FROM Pessoa u WHERE u.usuario = :usuario",
-                    Pessoa.class
-            );
-            query.setParameter("usuario", usuario);
-            return Optional.of(query.getSingleResult());
-        } catch (RuntimeException e) {
-            return Optional.empty();
-        }
-    }
-
     public boolean existePessoaPorEmailOuUsuario(String email, String usuario) {
         TypedQuery<Long> query = entityManager.createQuery(
                 "SELECT COUNT(p) FROM Pessoa p WHERE p.email = :email OR p.usuario = :usuario", Long.class
@@ -50,13 +35,26 @@ public class PessoaRepository {
 
     public Optional<Pessoa> findById(Long id) {
         try {
+            entityManager.clear();
             TypedQuery<Pessoa> query = entityManager.createQuery(
                     "SELECT u FROM Pessoa u WHERE u.id = :id",
                     Pessoa.class
             );
-
             query.setParameter("id", id);
+            return Optional.of(query.getSingleResult());
+        } catch (RuntimeException e) {
+            return Optional.empty();
+        }
+    }
 
+    public Optional<Pessoa> findPessoaByUsuario(String usuario) {
+        try {
+            entityManager.clear();
+            TypedQuery<Pessoa> query = entityManager.createQuery(
+                    "SELECT u FROM Pessoa u WHERE u.usuario = :usuario",
+                    Pessoa.class
+            );
+            query.setParameter("usuario", usuario);
             return Optional.of(query.getSingleResult());
         } catch (RuntimeException e) {
             return Optional.empty();
@@ -71,10 +69,11 @@ public class PessoaRepository {
 
     public void delete(Long id) {
         entityManager.getTransaction().begin();
-        Query query = entityManager.createQuery("UPDATE Pessoa u SET u.ativo = false WHERE u.id = :id");
+        Query query = entityManager.createQuery("DELETE FROM Pessoa u WHERE u.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
         entityManager.getTransaction().commit();
     }
+
 
 }

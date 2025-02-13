@@ -22,7 +22,6 @@ public class CargoVencimento implements Serializable {
 
     public CargoVencimento() {
     }
-
     public Long getId() {
         return id;
     }

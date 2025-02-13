@@ -13,8 +13,6 @@ public class Pessoa implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private boolean ativo;
-    @Column(nullable = false)
     private String nome;
     private String cidade;
     private String cep;
@@ -25,13 +23,10 @@ public class Pessoa implements Serializable {
     @Column(unique = true)
     private String usuario;
     private String telefone;
-
     private LocalDate dataNascimento;
-
     @ManyToOne
     @JoinColumn(name = "cargo_id", nullable = false)
     private Cargo cargo;
-
 
     public Pessoa() {
     }
@@ -50,7 +45,6 @@ public class Pessoa implements Serializable {
         this.pais = pais;
     }
 
-
     public Long getId() {
         return id;
     }
@@ -58,15 +52,6 @@ public class Pessoa implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public boolean isAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
-
 
     public String getNome() {
         return nome;

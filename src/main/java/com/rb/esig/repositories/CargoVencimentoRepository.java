@@ -18,6 +18,4 @@ public class CargoVencimentoRepository {
         return entityManager.createQuery("SELECT p FROM Pessoa p", Pessoa.class)
                 .getResultList();
     }
-
-
 }

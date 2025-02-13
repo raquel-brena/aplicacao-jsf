@@ -8,6 +8,7 @@ public class PessoaBeanDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Long id;
     private String nome;
     private String cidade;
     private String email;
@@ -114,6 +115,14 @@ public class PessoaBeanDTO implements Serializable {
 
     public void setPais(String pais) {
         this.pais = pais;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

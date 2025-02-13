@@ -21,7 +21,6 @@ public class Cargo implements Serializable {
     @OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL)
     private List<Pessoa> pessoas = new ArrayList<>();
 
-
     @OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CargoVencimento> cargoVencimentos = new ArrayList<>();
 

@@ -17,7 +17,6 @@ import java.util.List;
 public class PessoaBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private PessoaBeanDTO pessoaDTO;
-
     @Inject
     private PessoaService service;
     @Inject
@@ -28,8 +27,13 @@ public class PessoaBean implements Serializable {
     }
 
     public void save() {
-        this.service.save(this.pessoaDTO);
+        //if (dto.getId() != null) {
+        // this.service.update(dto);
+        //} else {
+        this.service.save(pessoaDTO);
+        //}
         PrimeFaces.current().executeScript("PF('dlgCadastro').hide()");
+        this.pessoaDTO = new PessoaBeanDTO();
     }
 
     public List<Pessoa> findAll() {
@@ -49,6 +53,4 @@ public class PessoaBean implements Serializable {
     public void setPessoa(PessoaBeanDTO pessoa) {
         this.pessoaDTO = pessoa;
     }
-
-
 }

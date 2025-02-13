@@ -15,7 +15,6 @@ import java.util.List;
 public class CargoBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
     @Inject
     private CargoService service;
 
@@ -25,5 +24,4 @@ public class CargoBean implements Serializable {
     public List<Cargo> findAll() {
         return service.findAll();
     }
-
 }
