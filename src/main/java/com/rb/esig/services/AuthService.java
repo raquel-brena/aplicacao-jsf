@@ -15,19 +15,21 @@ import java.util.Optional;
 public class AuthService implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
     private PessoaRepository pessoaRepository;
+
+    private UsuarioService usuarioService;
 
     public AuthService() {
         this.pessoaRepository = new PessoaRepository();
+        this.usuarioService = new UsuarioService();
     }
 
     public Usuario autenticar(String usuario, String senha) {
-        Optional<Usuario> usuarioEncontrado = pessoaRepository.findByUsuario(usuario);
+        Optional<Usuario> usuarioEncontrado = usuarioService.findByUsuario(usuario);
 
-        if (usuarioEncontrado.isEmpty()) throw new NotFoundException("Usuário não encontrado.");
+        if (usuarioEncontrado.isEmpty()) throw new BadRequestException("Usuário não existe.");
+        if (!usuarioEncontrado.get().getAtivo()) throw new BadRequestException("Usuário inativo.");
 
-        System.out.println(usuarioEncontrado.get().getPessoa().getNome());
         boolean senhaCorreta = passwordEncoder.verify(senha, usuarioEncontrado.get().getSenha());
 
         if (!senhaCorreta) throw new BadRequestException("Usuário ou senha incorretos.");
@@ -36,10 +38,16 @@ public class AuthService implements Serializable {
     }
 
     public Usuario cadastrar(String usuario, String senha) {
-        Optional<Usuario> usuarioEncontrado = this.pessoaRepository.findUsuario(usuario);
 
-        if (usuarioEncontrado.isPresent()) throw new BadRequestException("Já há uma conta associado à este usuário.");
+        Optional<Usuario> usuarioEncontrado = this.usuarioService.userExists(usuario);
 
+        if (usuarioEncontrado.isPresent()) {
+            String message = "Já há uma conta associada à este usuário";
+            if (!usuarioEncontrado.get().getAtivo()) {
+                message += " em estado inativo.";
+            }
+            throw new BadRequestException(message);
+        }
 
         Optional<Pessoa> pessoa = this.pessoaRepository.findPessoaByUsuario(usuario);
 
@@ -52,8 +60,6 @@ public class AuthService implements Serializable {
         novoUsuario.setPessoa(pessoa.get());
         novoUsuario.setSenha(senhaCriptograda);
 
-        return this.pessoaRepository.saveUsuario(novoUsuario);
+        return this.usuarioService.save(novoUsuario);
     }
-
-
 }

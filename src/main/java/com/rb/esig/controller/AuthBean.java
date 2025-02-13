@@ -43,8 +43,7 @@ public class AuthBean implements Serializable {
         Usuario usuario = authService.cadastrar(nomeUsuario, senha);
         System.out.println(usuario.getPessoa().getNome());
         this.usuarioLogado = usuario;
-        return "home.xhtml?faces-redirect=true";
-
+        return "login.xhtml?faces-redirect=true";
     }
 
     public String logout() {
@@ -62,17 +61,12 @@ public class AuthBean implements Serializable {
         return request.getSession();
     }
 
-
     public String getNomeUsuario() {
         return nomeUsuario;
     }
 
     public void setNomeUsuario(String nomeUsuario) {
         this.nomeUsuario = nomeUsuario;
-    }
-
-    public void setUsuarioLogado(Usuario usuarioLogado) {
-        this.usuarioLogado = usuarioLogado;
     }
 
     public String getSenha() {
@@ -85,5 +79,9 @@ public class AuthBean implements Serializable {
 
     public Usuario getUsuarioLogado() {
         return usuarioLogado;
+    }
+
+    public void setUsuarioLogado(Usuario usuarioLogado) {
+        this.usuarioLogado = usuarioLogado;
     }
 }
