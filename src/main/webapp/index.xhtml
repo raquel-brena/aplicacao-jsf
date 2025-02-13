@@ -48,7 +48,7 @@
             </div>
         </div>
     </div>
-
+    <h:form>
     <div class="conteudo">
         <div class="breadcrumContainer">
             <p:breadCrumb>
@@ -57,10 +57,12 @@
 
             </p:breadCrumb>
         </div>
+
         <div class="containerButtons">
             <p class="label"> Salários consolidados </p>
 
-            <h:form>
+
+            <div class="actions">
                 <p:commandButton id="btnCalcular"
                                  value="#{pessoaSalarioBean.buttonLabel}"
                                  action="#{pessoaSalarioBean.calcularSalarios()}"
@@ -74,43 +76,54 @@
                                  action="#{pessoaSalarioBean.gerarRelatorioPDF()}"
                                  ajax="false"
                                  styleClass="ui-button-danger"/>
+            </div>
 
-            </h:form>
+
+
         </div>
 
 
         <div class="table">
-            <p:dataTable value="#{pessoaSalarioBean.findAll()}"
-                         var="pessoa"
-                         paginator="true"
-                         rows="10"
-                         styleClass="custom-table"
-                         paginatorPosition="bottom"
-                         id="tabelaSalarios"
-                         loading="true">
-                <p:column>
-                    <f:facet name="header">Id</f:facet>
-                    #{pessoa.id}
-                </p:column>
-                <p:column>
-                    <f:facet name="header">Cargo</f:facet>
-                    #{pessoa.nomeCargo}
-                </p:column>
-                <p:column>
-                    <f:facet name="header">Pessoa</f:facet>
-                    #{pessoa.nomePessoa}
-                </p:column>
-                <p:column>
-                    <f:facet name="header">Salário</f:facet>
-                    R$ #{pessoa.salario}
-                </p:column>
-            </p:dataTable>
+
+                <p:dataTable value="#{pessoaSalarioBean.findAll()}"
+                             var="pessoa"
+                             paginator="true"
+                             rows="10"
+                             styleClass="custom-table"
+                             paginatorPosition="bottom"
+                             id="tabelaSalarios"
+                             loading="true"
+                             liveScroll="true"
+                             filterEvent="keyup"
+                             widgetVar="tabelaSalarios"
+                             filteredValue="#{pessoaSalarioBean.filteredPessoas}">
+
+                    <p:ajax event="filter" update="tabelaSalarios" />
+
+                    <p:column headerText="Id" filterBy="#{pessoa.id}" filterMatchMode="contains">
+                        <h:outputText value="#{pessoa.id}" />
+                    </p:column>
+
+                    <p:column headerText="Cargo" filterBy="#{pessoa.nomeCargo}" filterMatchMode="contains">
+                        <h:outputText value="#{pessoa.nomeCargo}" />
+                    </p:column>
+
+                    <p:column headerText="Pessoa" filterBy="#{pessoa.nomePessoa}" filterMatchMode="contains">
+                        <h:outputText value="#{pessoa.nomePessoa}" />
+                    </p:column>
+
+                    <p:column headerText="Salário" filterBy="#{pessoa.salario}" filterMatchMode="contains">
+                        <h:outputText value="R$ #{pessoa.salario}" />
+                    </p:column>
+
+
+                </p:dataTable>
+
 
         </div>
 
-
     </div>
-
+    </h:form>
     <div class="footer">a</div>
     </body>
 

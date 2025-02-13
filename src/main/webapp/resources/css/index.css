@@ -103,6 +103,12 @@ p, div, button {
     }
 }
 
+
+.actions {
+    display: flex;
+    gap: 1rem;
+}
+
 .container-nav {
     display: flex;
     width: 50%;

@@ -33,6 +33,7 @@ public class PessoaSalarioBean implements Serializable {
 
     public PessoaSalarioBean() {
     }
+    private List<PessoaSalarioConsolidado> filteredPessoas;
     public List<PessoaSalarioConsolidado> findAll() {
         return service.findAll();
     }
@@ -82,5 +83,13 @@ public class PessoaSalarioBean implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<PessoaSalarioConsolidado> getFilteredPessoas() {
+        return filteredPessoas;
+    }
+
+    public void setFilteredPessoas(List<PessoaSalarioConsolidado> filteredPessoas) {
+        this.filteredPessoas = filteredPessoas;
     }
 }
