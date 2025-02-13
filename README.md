@@ -4,6 +4,7 @@
 <p align="center">
   <img src="https://github.com/raquel-brena/esig/blob/master/src/main/webapp/resources/login.png" width="200" title="JSF logo">
   <div align="center">
+    <a href="https://raquel-brena.github.io/" title="Report Bug">Portfólio</a> ·
     <a href="https://github.com/raquel-brena/TuneTown/issues" title="Report Bug">Report Bug</a> ·
     <a href="https://github.com/raquel-brena/TuneTown/issues" title="Request Feature">Request Feature</a>
   </div>
