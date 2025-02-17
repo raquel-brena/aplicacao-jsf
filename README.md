@@ -20,7 +20,7 @@ Essa aplicação tem como objetivo principal realizar o cálculo do salário de 
 Além disso, permite o cadastro, listagem e exclusão das pessoas, usuários e salários consolidados, possuindo autenticação via login e senha. 
 O cálculo dos salários é feito de modo assincrono utilizando CompleteFuture e criação de uma Thread. Ademais, o design é simples inspirado em aplicações 
 já consolidadas no mercado e conta com tratamento de exceções eficiente.
-Para essa aplicação, utilizei JSF juntamente com Java EE e JPA puro, sem a utilização de Hibernate. 
+Para essa aplicação, utilizei JSF juntamente com Java EE e JPA. 
 
 ![cover](https://github.com/user-attachments/assets/a9c1f94f-1ebe-4fba-b6b7-392fca7c67d6)
 
